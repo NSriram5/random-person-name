@@ -8,6 +8,7 @@ mod validchars;
 mod char_types;
 mod ngramweights;
 mod name;
+mod test_input_names;
 
 
 
@@ -18,10 +19,10 @@ pub enum TestType {
 }
 
 pub struct NameExperiments<const N: usize, const M: usize> {
-    positive_char_samples: NGramWeights<N, M, VALID_CHAR_COUNT>,
-    negative_char_samples: NGramWeights<N, M, VALID_CHAR_COUNT>,
-    positive_char_type_samples: NGramWeights<N, M, CHAR_TYPE_COUNT>,
-    negative_char_type_samples: NGramWeights<N, M, CHAR_TYPE_COUNT>,
+    positive_char_samples: NGramWeights<N, VALID_CHAR_COUNT>,
+    negative_char_samples: NGramWeights<N, VALID_CHAR_COUNT>,
+    positive_char_type_samples: NGramWeights<N, CHAR_TYPE_COUNT>,
+    negative_char_type_samples: NGramWeights<N, CHAR_TYPE_COUNT>,
     finalized: bool
 }
 
@@ -36,7 +37,7 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
         if (VALID_CHAR_COUNT as usize).pow(N as u32) != M {
             panic!("M must be {}^N. Instead, M: {} and N: {}", VALID_CHAR_COUNT, M, N);
         }
-        Self { 
+        NameExperiments { 
             positive_char_samples: NGramWeights::new(),
             negative_char_samples: NGramWeights::new(),
             positive_char_type_samples: NGramWeights::new(),
@@ -47,13 +48,13 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
     pub fn read_sample(&mut self, text: &[Option<char>], test_type: TestType) -> Result<(),String> {
         let mut i = 0;
         let mut valid_chars: Vec<ValidChar> = Vec::with_capacity(text.len());
-        let mut char_weights = match test_type {
-            TestType::Pos => self.positive_char_samples,
-            TestType::Neg => self.negative_char_samples,
+        let char_weights = match test_type {
+            TestType::Pos => &mut self.positive_char_samples,
+            TestType::Neg => &mut self.negative_char_samples,
         };
-        let mut char_type_weights = match test_type {
-            TestType::Pos => self.positive_char_type_samples,
-            TestType::Neg => self.negative_char_type_samples,
+        let char_type_weights = match test_type {
+            TestType::Pos => &mut self.positive_char_type_samples,
+            TestType::Neg => &mut self.negative_char_type_samples,
         };
         // add ngrams of characters from sample to weights
         let mut n_gram = [ValidChar::null; N];
@@ -63,6 +64,7 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
             n_gram.rotate_left(1);
             n_gram[N-1] = *p_char;
             valid_chars.push(*p_char);
+            i += 1;
         }
         {
             // the last ngram should terminate the word. It needs to be added
@@ -71,11 +73,11 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
         }
         // Make an array of character types using the previously derived valid chars
         let mut char_types: Vec<CharType> = Vec::with_capacity(text.len());
-        for (i, p_char) in valid_chars.iter().enumerate() {
+        for i in 0..valid_chars.len() {
             let mut char_slice = [ValidChar::null; 4];
             for j in 0..char_slice.len() {
-                if j>i {continue;}
-                char_slice[i-j] = valid_chars[i-j];
+                if (j+1)>i {continue;}
+                char_slice[4-(j+1)] = valid_chars[i-(j+1)];
             }
             let char_type = CharType::try_from(&char_slice)?;
             char_types.push(char_type);
@@ -87,12 +89,6 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
             let _ = char_type_weights.add_to_weights(&char_type_slice, &p_char);
             char_type_slice.rotate_left(1);
             char_type_slice[N-1] = p_char;
-        }
-        {
-            // add a final char type ngram to quantify word endings
-            let p_char = CharType::Null;
-            let _ = char_type_weights.add_to_weights(&char_type_slice, &p_char);
-
         }
         Ok(())
     }
@@ -110,7 +106,7 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
         self.finalized = true;
         Ok(())
     }
-    pub fn guess_next_char(&self, char_seq: &[ValidChar], char_type_seq: &[CharType]) -> Result<(ValidChar, CharType), String> {
+    pub fn generate_probability_distribution(&self, char_seq: &[ValidChar], char_type_seq: &[CharType]) -> Result<([f64; VALID_CHAR_COUNT], f64, [ValidChar;4]), String> {
         let mut char_4_sequence: [ValidChar; 4] = [ValidChar::null, ValidChar::null, ValidChar::null, ValidChar::null];
         for i in 0..3 {
             char_4_sequence[4-2-i] = *char_seq.get(char_seq.len()-1-i).unwrap_or(&ValidChar::null);
@@ -126,8 +122,8 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
             let mapped_char_type = CharType::try_from(&char_4_sequence)?;
             char_type_mapping[mapped_char_type as usize].push(i);
         }
-        let (pos_char_types, pos_char_type_sum) = self.positive_char_type_samples.get_row_and_sum(char_seq)?;
-        let (neg_char_types, neg_char_type_sum) = self.negative_char_type_samples.get_row_and_sum(char_seq)?;
+        let (pos_char_types, pos_char_type_sum) = self.positive_char_type_samples.get_row_and_sum(char_type_seq)?;
+        let (neg_char_types, neg_char_type_sum) = self.negative_char_type_samples.get_row_and_sum(char_type_seq)?;
         for i in 0..CHAR_TYPE_COUNT {
             let inv_neg_char_type_p = neg_char_type_sum - (neg_char_types[i] as usize);
             let combined_type_p  = (pos_char_types[i] as f64/pos_char_type_sum as f64)*(inv_neg_char_type_p as f64/neg_char_type_sum as f64);
@@ -136,8 +132,13 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
             }
         }
         let sum_of_probabilities = combined_char_probabilities.iter().sum::<f64>();
+        Ok((combined_char_probabilities, sum_of_probabilities, char_4_sequence))
+
+    }
+    pub fn guess_next_char(&self, char_seq: &[ValidChar], char_type_seq: &[CharType]) -> Result<(ValidChar, CharType), String> {
+        let (char_probabilities, sum_of_probabilities, mut char_4_sequence) = self.generate_probability_distribution(char_seq, char_type_seq)?;
         let mut random_pick = rand_float() * sum_of_probabilities;
-        let index_pick  = combined_char_probabilities.into_iter().enumerate().find_map(|(i, p)| {
+        let index_pick  = char_probabilities.into_iter().enumerate().find_map(|(i, p)| {
             if p >= random_pick {return Some(i)} else {
                 random_pick -= p;
                 None
@@ -170,10 +171,24 @@ impl<const N: usize, const M: usize> NameExperiments<N, M> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::{name::{self, Name}, test_input_names::INPUT_ORC_NAMES, NameExperiments};
+
+    // use super::*;
 
     #[test]
     fn it_makes_a_random_name() {
-        
+        let names: Vec<Name<16>> = Name::new_from_batch(
+            INPUT_ORC_NAMES,
+            "male",
+            name::PaddingBias::Left,
+            Some("Orc"), None, None, None
+        );
+        let mut name_guess_experiments: NameExperiments<3, 24389> = NameExperiments::new();
+        for n in names.iter() {
+            let _ = name_guess_experiments.read_positive_sample(&n.text).unwrap();
+        }
+        let _ = name_guess_experiments.finalize().unwrap();
+        let new_name = name_guess_experiments.build_random_name(16).unwrap();
+        println!("Hello, {:?}!", new_name);
     }
 }
