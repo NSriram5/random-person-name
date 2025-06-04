@@ -71,22 +71,4 @@ impl<const N: usize, const V: usize> NGramWeights<N, V>
         *sum = sum.checked_add(1).ok_or("Max ngram experiments reached")?;
         Ok(())
     }
-    pub fn finalize(&mut self) -> Result<(),String> {
-        for i in 0..self.sum.len() {
-            let mut divisor = 1u8;
-            for j in 0..V {
-                while u8::try_from(
-                    ((self.weights[i][j]+1)) / divisor
-                ).is_err() {
-                    divisor += 1;
-                }
-            }
-            for j in 0..V {
-                self.weights[i][j] = ((self.weights[i][j] as usize+1usize) / divisor as usize) as u8;
-            }
-            self.sum[i] = self.sum[i] + V;
-        }
-        self.finalized = true;
-        Ok(())
-    }
 }

@@ -1,4 +1,4 @@
-pub const INPUT_ORC_NAMES: &[&str; 81] = &[
+pub const INPUT_ORC_NAMES: &[&str] = &[
     "Grukthar", "Morgash", "Throgar", "Uzgor", "Braknul", "Drokmar", "Kazgul",
     "Snagdug", "Urgoth", "Gorvak", "Thrumok", "Zugrak", "Nargul", "Bolgrak",
     "Drughul", "Krogath", "Ruzgar", "Maghduk", "Vorgoth", "Thrakkar", "Zulmak",
@@ -10,10 +10,10 @@ pub const INPUT_ORC_NAMES: &[&str; 81] = &[
     "Marnok", "Drogar", "Ruzmok", "Skullgar", "Krundol", "Zaghul", "Borgruk",
     "Uzkoth", "Thargok", "Drugnok", "Krothar", "Snarlgash", "Muglok", "Vrogmar",
     "Hrukgar", "Zorkhul", "Ghazmog", "Drogath", "Thundak", "Urgmok", "Krazgor",
-    "Snazguk", "Grolnak", "Mokgar", "Grumzak"
+    "Snazguk", "Grolnak", "Mokgar", "Grumzak", "Urgot",
 ];
 
-pub const input_goblin_names: &[&str; 82] = &[
+pub const INPUT_GOBLIN_NAMES: &[&str] = &[
     "Agrak", "Blurg", "Snatch", "Grimbok", "Drekk", "Marnok", "Zurg", "Nobble",
     "Gretch", "Fangrot", "Urruk", "Krindle", "Snagtooth", "Dribble", "Bogmar",
     "Ruknash", "Thrag", "Gobbuk", "Snort", "Lugnut", "Drazik", "Gribble",
@@ -25,4 +25,78 @@ pub const input_goblin_names: &[&str; 82] = &[
     "Grobnar", "Snizzle", "Thrak", "Urblik", "Krag", "Plib", "Snib", "Morgrit",
     "Zrak", "Gribnob", "Drekz", "Fangik", "Nurg", "Brizzle", "Lork", "Glob", "Tibnob",
     "Gratch", "Zorb", "Slag"
+];
+
+pub const INPUT_EUROPEAN_MALE_NAMES: &[&str] = &[
+    "Adrian", "Alban", "Albert", "Alec", "Alex", "Alfie", "Anders", "Andreas", "Andrei",
+    "Anton", "Armand", "Arne", "Arnold", "Artur", "August", "Bartek", "Bastian", "Ben",
+    "Benedikt", "Benjamin", "Bjorn", "Bogdan", "Bruno", "Carlo", "Caspar", "Cem", "Chris",
+    "Christian", "Christoph", "Claes", "Claude", "Colin", "Conrad", "Damien", "Dan",
+    "Daniel", "Dario", "David", "Dennis", "Dominik", "Dorian", "Dragos", "Dylan", "Edgar",
+    "Edi", "Elias", "Emil", "Eric", "Erik", "Ernest", "Fabian", "Felix", "Finn", "Flavio",
+    "Florin", "Francis", "Franco", "Frank", "Franz", "Frederik", "Gabriel", "Gabor",
+    "Gavin", "George", "Gerald", "Goran", "Gregor", "Gustav", "Hans", "Harry", "Heinrich",
+    "Henrik", "Hugo", "Igor", "Ilya", "Isaac", "Ivan", "Jakob", "Jan", "Jannik", "Jens",
+    "Joachim", "Joel", "Johann", "Jonas", "Jordi", "Josef", "Julian", "Julius", "Kai",
+    "Karol", "Kaspar", "Kevin", "Kilian", "Klaus", "Knut", "Kristian", "Krzysztof",
+    "Lars", "Laurent", "Laurin", "Leo", "Leon", "Liam", "Lorenz", "Lorenzo", "Louis",
+    "Luca", "Lucian", "Ludwig", "Maciej", "Magnus", "Malte", "Manuel", "Marc", "Marcel",
+    "Marco", "Marcus", "Marek", "Mario", "Marko", "Markus", "Martin", "Matej", "Matheo",
+    "Mathias", "Matteo", "Matthias", "Max", "Maxim", "Maxime", "Mika", "Milan", "Milos",
+    "Miro", "Nico", "Niels", "Niklas","Nik", "Niko", "Nikolai", "Nils", "Noah", "Norbert",
+    "Oliver", "Oscar", "Oskar", "Pablo", "Patrik", "Paul", "Pavel", "Peter", "Philipp",
+    "Pierre", "Rafa", "Ralf", "Rasmus", "Renato", "Rene", "Ricardo", "Richard", "Robert",
+    "Robin", "Ruben", "Rudolf", "Samuel", "Sebastian", "Sergei", "Simon", "Soren", "Stefan",
+    "Sven", "Tamas","Theo", "Thomas", "Tibor", "Timo", "Tobias", "Tomas", "Tommaso", "Torben",
+    "Valentin", "Victor", "Viktor", "Vincenzo", "Vincent", "Vlad", "Walter", "Wilhelm",
+    "Xavier", "Yannick", "Zdenek", "Zoltan"
+];
+
+pub const NOT_NAMES: &[&str] = &[
+    "caveitqokkykvkoa","bowyxhcjlht'elbo","zugcivpy'ncilkos","krauyydleyljr'wj",
+    "finfqzknefulndi-","sehuogx'-nvnyrqb","falgo-n'f-of'zoe","vuimjtdnevsgfrxq",
+    "pycibiirundivkig","pakcrtvtycazcjsw","cywcufywq-dt-jgk","trtctwuzysdiud-p",
+    "bovsem","gatzymdaipegludr","taxqaoqloqmibldk","dxpilaxcaowhxjzf","bardikcqvlbsabmq",
+    "togmeppoicyfeinm","krycvuzwhnadguod","thottiuwzvvfv-ra","urklbawfuqfepqfn",
+    "olcaspoyrtlqycub","pawqurucuynxoenu","sarbedxpociempam","tadurbmauefiur'm",
+    "psyvqum-csfigdiu","bahphwupviascpsa","sewsfnxudutaugzh","simmatwyt'uqqakp",
+    "caduewrmfgzdlxf","dukqcbzuytydracv","drusosdvciegyfic","frekoifulnnxkwqz",
+    "synubpeqsk'gfzs","brabsxcykevdawxo","qeim'l'abwwgpzy","gorhijfrn'aftemo",
+    "grukzqhv-uotisgz","gubormatqwhsojfw","zordvv'yivpuko","kybzjhikradyw-c'",
+    "deqbbtwbbsoemwmk","dopcmvbufdefradp","sumcbxhjl-ad","kvaduarzdwkvyszb",
+    "vribiargonhpap","tognijguzqovan'r","ti-uhniwbp'ovrdq","dradbyqo-g'-qe'x",
+    "extsjccpnqubcixd","zderdakweoxbjusx","clydbwx'zzcicman","krelfoxzoetuldiy",
+    "krixmujokshjnbwi","uogy'ojn-t'jqrwb","pei'ei'pkumakwop","macmapdwwxxnm'u",
+    "sahsrj-w","gloqenwtganwqlig","zysxtghwsyhrmqun","gruxwlposcyvbydy",
+    "claxcbhwh","d-iycfhwzicrulbo","mebkwuqgfylqbryc","chrjbeptyowsashl","zolqglwobid",
+    "kiqtsysoomptqg'y","tiwksgmvvrb","uztoov'wyiemwzlj","grwccstybwyqquhu",
+    "dfirwbyxpuwurpip","ghadultoogodatiq","krequtlakmsvesgo","marcyrjtlvsedo",
+    "mi-dwvexjljrvfg-","zldgg'fxlxqebwpq","thwignyscsrokei-","ectrfohhl",
+    "gflwp-qobg'cqrah","bruvggbzeiooyims","tharkukdz'woktbn","erpaprpxwgjtwfjy",
+    "thsswsrpsypqulai","guzdyzcvidyhgqgb","xwonborhryktwxko","markaqbnhp",
+    "likfqagsywmumyxy","sxpcpnlt","bluhtiwtrqdsurcl","tiwrwwciqqaep-av",
+    "vtztudmkvugovtpe","chyosafffxftpplm","drognuxblusmloaa","dumzshnwxemiuad'",
+    "drjqexusa","tvwzjzhlx''vqlab","powifdaool-qsqnq","uqryw-yhpynyy-ig",
+    "woplytimiosvdu-t","bruyrrbbqgwdfryt","bladgeoquqjhajy'","kraqorlbixpladgu",
+    "cox-f'nglalhyfyp","nopweqaaoalzv'tn","gxiobtivpumoioqu","kuiivgvy'le'pxpj",
+    "sdualebxhuhregnb","tryfvajxijn'bwtn","snddoki-qiqqybyv","calkzpphiojuquzq",
+    "tonmuzqcqzykcycq","erilczadmavedtqw","egrobniedyvtmjim","tisdvxdagqirzueo",
+    "fikwsusvclth","brudkyhkymienfxu","wagelcskeig-vofi","paxdierbjqnquli-",
+    "mepqzuwkracysuys","socaltwylkaqikog","gavxnhcsjo'zgocc","patoep",
+    "gahgmafppafy-rka","pikwyzvrbhyzhpoy","z-s''tirkolduska","nikgaqwaccuehgjb",
+    "jazijhoglicmusn-","rakywoewnasduxdu","briyhbtylyxo","trumougt","fryndvnhpybetywu",
+    "krosqtrcuhqyacqx","ceupnvclinpaiy","grogyfve","slyckeqwkebmsjpu","awqumoxidwuxoauj",
+    "fuwpypiatrbyzyal","bruftylakvk-xcaw","febbekwydoilnctt","grutdiqxsmeqqehd",
+    "snekytobqekrabpk","grujxpzxegqtyrx","dowzpsjreeb","thukklebmaqkhhq'",
+    "pfedaximebti'qco","urgvdy-ht","kogoqyfiykddttzu","olfehqyrmouubhny",
+    "zklvvtziqnnyhobg","zanljfuglfcqnc'x","dreia-e-nacgyvoy","kruaofwplcdmlxtu",
+    "koiwkdyq","tharnimkofejhuoy","uvobroz'wwmjtskt","marenhxvahjpb","tibordavprvizxfh",
+    "gaykpqvwuvsxlzrm","milaoslgrozhkpv","setuxordulovpodr","dolbi'bhruyrw-op",
+    "snebgsi'xclkxawb","zolpufcibmehgerm","krutpnvwhtotyhen","hucmafvlzyxemdi'",
+    "adycproierrhwvna","leubdbbbcnjg'wsg","tforjdbhd-fwunky","hicg-unkan-mtpou",
+    "belfrjfrb'zjajwv","fgiwigboj-","pls-u-ht'gxdarz","tronxmnocavjg-zp","brafyl",
+    "bolflcozpogleggu","zorpwnt'sernsmuh","skerxcifteyglrax","wawtcm","dusteennroxtywpg",
+    "macsvphnphtqkrwl","nerqyzglh","ilkoguprynawkryo","ecitdo'wgzonwoxf","kasbyvlmtqwz'fji",
+    "fedn-ifdestirhrz","masbiyaet","sleqcsyuzkairtgi","dryxfrtrxalnnzfp","pliosb-ffiltijxm",
+    "niwvafg'elbz","gorzk-c'ajiiqfec","mahs'qayarehvzfd","gromrcccrmftqw'b","thxn'sywbzhmrzrm"
 ];

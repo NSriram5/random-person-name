@@ -44,6 +44,14 @@ impl ValidChar {
 impl TryFrom<&char> for ValidChar {
     type Error=String;
     fn try_from(c: &char) -> Result<Self, String> {
+        let input_char = c.to_lowercase().next().unwrap();
+        let early_res = match input_char {
+            '-' => Some(Self::dash),
+            '\'' => Some(Self::apostrophe),
+            '\0' => Some(Self::null),
+            _ => None
+        };
+        if let Some(res) = early_res {return Ok(res);}
         let c_ident = c.to_lowercase().next().unwrap() as u32 - 'a' as u32;
         match c_ident {
             0 => Ok(Self::a),
@@ -72,12 +80,7 @@ impl TryFrom<&char> for ValidChar {
             23 => Ok(Self::x),
             24 => Ok(Self::y),
             25 => Ok(Self::z),
-            _ => match c {
-                '-'=> Ok(Self::dash),
-                '\'' => Ok(Self::apostrophe),
-                '\0' => Ok(Self::null),
-                _ => Err(format!("{c} is an invalid character"))
-            }
+            _ =>  Err(format!("{c} is an invalid character"))
         }
     }
 }
