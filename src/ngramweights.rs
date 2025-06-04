@@ -1,4 +1,3 @@
-use crate::validchars::{ValidChar};
 use std::fmt::Debug;
 
 // M must be VALID_CHAR_COUNT^N
@@ -6,7 +5,6 @@ use std::fmt::Debug;
 pub struct NGramWeights<const N: usize, const V: usize> {
     pub weights: Vec<[u8;V]>,
     pub sum: Vec<usize>,
-    pub finalized: bool,
 }
 
 impl<const N: usize, const V: usize> NGramWeights<N, V>
@@ -22,7 +20,6 @@ impl<const N: usize, const V: usize> NGramWeights<N, V>
         NGramWeights {
             weights: weights,
             sum: sum,
-            finalized: false
         }
     }
     fn get_row_index<T>(&self, char_seq: &[T]) -> Result<usize,String>
@@ -55,7 +52,6 @@ impl<const N: usize, const V: usize> NGramWeights<N, V>
     pub fn get_mut_row_and_sum<T>(&mut self, char_seq:&[T]) -> Result<(&mut [u8;V], &mut usize),String> 
         where usize: From<T>, T: Clone + Copy + Debug
     {
-        if self.finalized {return Err("Cannot modify weights after finalization".to_string())}
         let index = self.get_row_index(char_seq)?;
         Ok((self.weights.get_mut(index).unwrap(), self.sum.get_mut(index).unwrap()))
     }
@@ -63,12 +59,27 @@ impl<const N: usize, const V: usize> NGramWeights<N, V>
         where usize: From<T>,
         T: Clone + Copy + Debug
     {
-        if self.finalized {return Err("Cannot add to weights after finalization".to_string())}
         if sequence.len() < (N) {return Err("Not enough characters in input character sequence".to_string())}
         let (row, sum) = self.get_mut_row_and_sum(sequence).expect("Previous check should have gaurded against character input length errors");
         let column = usize::from(*following_char);
         row[column] = row[column].checked_add(1).ok_or("Weights max capacity reached")?;
         *sum = sum.checked_add(1).ok_or("Max ngram experiments reached")?;
+        Ok(())
+    }
+    pub fn apply_easing(&mut self, numerator: u8, demoninator: u8) -> Result<(),String> {
+        self.weights.iter_mut().enumerate().for_each(|(index, row)| {
+            let mut fraction = 1u8;
+            while (self.sum.get(index).unwrap()/fraction as usize).checked_add((numerator as usize * V)/demoninator as usize).is_none() {fraction += 1;}
+            while row.iter().any(|&w| u8::try_from(
+                ((w as usize/fraction as usize) + numerator as usize)/(demoninator as usize)
+            ).is_err()) {fraction += 1;}
+            let sum = self.sum[index];
+            self.sum.get_mut(index).replace(&mut ((sum / fraction as usize) + (f64::round((numerator as f64 / demoninator as f64) * V as f64)) as usize));
+            for j in 0..row.len() {
+                let w = row[j];
+                row[j] = (row[j] / fraction) + (f64::round(numerator as f64 / demoninator as f64) as u8)
+            }
+        });
         Ok(())
     }
 }
