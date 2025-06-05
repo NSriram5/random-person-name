@@ -52,6 +52,24 @@ pub const INPUT_EUROPEAN_MALE_NAMES: &[&str] = &[
     "Xavier", "Yannick", "Zdenek", "Zoltan"
 ];
 
+pub const INPUT_GREEK_FEMALE_NAMES: &[&str] = &[
+    "Agape", "Agathi", "Aikaterini", "Alekto", "Aliki", "Amara", "Aminta", "Anastasia", "Andromeda", "Angela",
+"Anthe", "Antigone", "Arete", "Ariadne", "Aristea", "Artemis", "Aspasia", "Asteria", "Athanasia", "Athina",
+"Calliope", "Calypso", "Chara", "Chloe", "Chrysanthe", "Circe", "Clea", "Cleopatra", "Clio", "Corinna",
+"Damaris", "Danae", "Daphne", "Demetra", "Despoina", "Despina", "Dione", "Dorothea", "Eirene", "Ekaterina",
+"Elena", "Elektra", "Elpida", "Eris", "Eugenia", "Eudora", "Eudoxia", "Eunike", "Euterpe", "Evangelia",
+"Evdokia", "Foteini", "Gaia", "Galatea", "Glykeria", "Haidee", "Harmonia", "Hebe", "Helen", "Helena",
+"Hemera", "Hera", "Herodias", "Hermione", "Hestia", "Ioanna", "Ione", "Ioulia", "Irene", "Isadora",
+"Kalista", "Kalypso", "Kassiani", "Kassandra", "Katerina", "Kleio", "Kleopatra", "Koralia", "Kyriaki", "Lamia",
+"Leda", "Leto", "Lydia", "Lyra", "Magdalini", "Marianna", "Maria", "Melina", "Melita", "Melpomene",
+"Metis", "Myrsini", "Myrrine", "Nausicaa", "Nefeli", "Nemesis", "Nicoleta", "Nike", "Nikoleta", "Nyx",
+"Olga", "Ourania", "Panagiota", "Pandora", "Paraskevi", "Penelope", "Persephone", "Persis", "Phaedra", "Philippa",
+"Philomela", "Polyxeni", "Rhea", "Roxani", "Sappho", "Selene", "Semele", "Sofia", "Sotiria", "Spyridoula",
+"Stamatia", "Stavroula", "Syntyche", "Thaleia", "Thekla", "Theodora", "Theodosia", "Thespina", "Thalia", "Themis",
+"Theone", "Timothea", "Tonia", "Triantafyllia", "Urania", "Vasiliki", "Venetia", "Vera", "Xanthe", "Xenia",
+"Yanna", "Yianna", "Ypatia", "Zafira", "Zaharoula", "Zaira", "Zanthe", "Zenia", "Zinovia", "Zoe"
+];
+
 pub const NOT_NAMES: &[&str] = &[
     "caveitqokkykvkoa","bowyxhcjlht'elbo","zugcivpy'ncilkos","krauyydleyljr'wj",
     "finfqzknefulndi-","sehuogx'-nvnyrqb","falgo-n'f-of'zoe","vuimjtdnevsgfrxq",

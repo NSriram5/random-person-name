@@ -1,6 +1,5 @@
 use std::fmt::Debug;
 
-// M must be VALID_CHAR_COUNT^N
 #[derive(Debug, Clone)]
 pub struct NGramWeights<const N: usize, const V: usize> {
     pub weights: Vec<[u8;V]>,

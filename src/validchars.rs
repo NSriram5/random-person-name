@@ -1,13 +1,74 @@
+
+/// An enum of character to make rust better use of pattern matching in code elsewhere. 
 #[derive(Debug,Clone,Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum ValidChar {
-    a=0,b=1,c=2,d=3,e=4,f=5,g=6,h=7,i=8,j=9,k=10,l=11,m=12,n=13,o=14,p=15,q=16,r=17,s=18,t=19,u=20,v=21,w=22,x=23,y=24,z=25,dash=26,apostrophe=27,null=28
+    /// a
+    a=0,
+    /// b
+    b=1,
+    /// c
+    c=2,
+    /// d
+    d=3,
+    /// e
+    e=4,
+    /// f
+    f=5,
+    /// g
+    g=6,
+    /// h
+    h=7,
+    /// i
+    i=8,
+    /// j
+    j=9,
+    /// k
+    k=10,
+    /// l
+    l=11,
+    /// m
+    m=12,
+    /// n
+    n=13,
+    /// o
+    o=14,
+    /// p
+    p=15,
+    /// q
+    q=16,
+    /// r
+    r=17,
+    /// s
+    s=18,
+    /// t
+    t=19,
+    /// u
+    u=20,
+    /// v
+    v=21,
+    /// w
+    w=22,
+    /// x
+    x=23,
+    /// y
+    y=24,
+    /// z
+    z=25,
+    /// dash
+    dash=26,
+    /// apostrophe
+    apostrophe=27,
+    /// null
+    null=28
 }
 
 pub const VALID_CHAR_COUNT: usize = ValidChar::VARIANTCOUNT as usize;
 
 impl ValidChar {
+    /// A helper constant to track the count of characters that are considered valid in the system.
     pub const VARIANTCOUNT: u8 = 29;
+    /// A helper constant to quickly index valid characters
     pub const ALLCHARS: [ValidChar; VALID_CHAR_COUNT] = [
         ValidChar::a,
         ValidChar::b,
