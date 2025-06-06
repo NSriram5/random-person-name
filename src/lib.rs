@@ -13,6 +13,25 @@
 //! 4. Utilize `NameExperiment::build_random_name`. Apply external analysis to separate valid names from non names.
 //! 5. Reinforce the weights within the `NameExperiment` by continuing to call `NameExperiment::read_positive_sample` and `NameExperiment::read_negative_sample` using valid and invalid names.
 //! 
+//! ## Examples
+//! ```
+//! let mut name_guess_experiments: NameExperiments<3> = NameExperiments::new();
+//! let orc_names: &[str] = &["Morgash", "Nargul", "Snarlgash"];
+//! let names = Name::new_from_batch(orc_names,
+//!     "male",
+//!     PaddingBias::Left,
+//!     Some("Orc"),
+//!     None,
+//!     None,
+//!     None
+//! );
+//! for n in names.iter() {
+//!     let _ = name_guess_experiments.read_positive_sample(&n.text).unwrap();
+//! }
+//! let new_name = name_guess_experiments.build_random_name(Some(16)).unwrap();
+//! println!("Hello, {}!", new_name);
+//! ```
+//! 
 //! ## Implementation details explained 
 //! This library exports a struct of `NameExperiments` and supports the analysis and extraction of probability distributions of character combinations.
 //! To start, define a new NameExperiments with a generic const parameter N. N indicates how many characters to look backwards while analyzing a name
@@ -86,6 +105,8 @@ pub struct NameExperiments<const N: usize> {
 
 impl<const N: usize> NameExperiments<N> {
     /// Create a new instance of a naming experiment. Ready to recieve names after created.
+    /// Panics if generic parameter N < 2. Or if a choice of N will result in a u32 overflow
+    /// Memory foot-print of the structure increases O(x^N)
     pub fn new() -> Self {
         if N < 2 {
             panic!("N must be at least 2");
